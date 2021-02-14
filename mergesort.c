@@ -13,7 +13,7 @@ void printList(Node * itterator){
 	printf("\n");
 }
 
-void mergeSort(Node * head){
+Node* mergeSort(Node * head){
 
     // find middle of the linkedlist
 
@@ -34,9 +34,16 @@ void mergeSort(Node * head){
 
         prev_slow -> next = NULL;
 
-        mergeSort(left);
-        mergeSort(right);
-
+        right = mergeSort(right);
+        left = mergeSort(left);
+    
+        // printf("=======\n");
+        // printf("LEFT:\n");
+        // printList(left);
+        // printf("RIGHT:\n");
+        // printList(right);
+        // printf("=======\n");
+    
         Node* left_counter = left;
         Node* right_counter = right;
         
@@ -45,6 +52,7 @@ void mergeSort(Node * head){
         if (left_counter->value <= right_counter->value){
             sorted_counter = left_counter;
             left_counter = left_counter -> next; 
+
         }else{
             sorted_counter = right_counter;
             right_counter = right_counter -> next;
@@ -52,12 +60,17 @@ void mergeSort(Node * head){
         Node* answer = sorted_counter;
 
         while(left_counter != NULL && right_counter != NULL){
-
+        // printf("=====");
+        // printf("left: %d; right: %d", left_counter->value, right_counter->value);
+        // printf("=====\n");
+        
             if (left_counter->value <= right_counter->value){
-                sorted_counter = left_counter;
+                sorted_counter->next = left_counter;
+                sorted_counter = sorted_counter ->next;
                 left_counter = left_counter -> next; 
             }else{
-                sorted_counter = right_counter;
+                sorted_counter->next = right_counter;
+                sorted_counter = sorted_counter ->next;
                 right_counter = right_counter -> next;
             }
         }
@@ -68,18 +81,33 @@ void mergeSort(Node * head){
         if (right_counter != NULL)
             sorted_counter->next = right_counter;
 
-        head = answer;
+
+        // printf("==ANSWER==\n");
+        // printList(answer);
+        // printf("==========\n");
+
+
+        // printf("==HEAD==\n");
+        // printList(head);
+        // printf("==========\n");
+
+        return answer;
 
     }
 
-    return;
+    return head;
 }
 
 
 int main(int argc, char const *argv[]){
-	int len = 10;
+	int len = 8;
 	Node * list = makeNewRandomList(len);
-	mergeSort(list);
-	printList(list);
+    printf("INPUT LIST:\n");
+    printList(list);
+
+	Node* answer = mergeSort(list);
+	
+    printf("OUTPUT LIST:\n");
+    printList(answer);
 	return 0;
 }
