@@ -13,7 +13,37 @@ void printList(Node * itterator){
 	printf("\n");
 }
 
-void insertionSort(Node * head){
+Node * insertionSort(Node * head){
+	Node * sorted = head;
+	Node * unsorted = head->next;
+	head->next = NULL;
+	while (unsorted != NULL){
+		sorted = insert(unsorted, sorted);
+		unsorted =  unsorted->next;
+	}
+	return sorted;
+}
+
+Node * insert(Node * element, Node * list){
+	Node * previous = NULL;
+	Node * current = list;
+	while (current != NULL && element->value > current->value){
+		previous = current;
+		current = current->next;
+	}
+	element->next = current;
+	if(previous == NULL){
+		list = element;
+	} else {
+		previous->next = element;
+	}
+	return list;
+}
+
+
+
+
+/** old insertion sort list
 	int key;
 	Node * itterator;
 	Node * index = head;
@@ -33,10 +63,12 @@ void insertionSort(Node * head){
 
 }
 
+*/
 int main(int argc, char const *argv[]){
 	int len = 10;
 	Node * list = makeNewRandomList(len);
-	insertionSort(list);
+	printList(list);
+	list = insertionSort(list);
 	printList(list);
 	return 0;
 }
