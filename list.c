@@ -64,6 +64,22 @@ void swap(Node * n1, Node * n2 ){
 	n2 -> value = temp;
 }
 
+
+Node* append(Node* root, Node* node){
+
+	Node* temp = root;
+
+	if(root == NULL)
+		return node;
+
+	while(temp->next != NULL)
+		temp = temp -> next;
+	temp -> next = node;
+
+	return root;
+
+
+}
 // int main(int argc, char const *argv[]){
 
 // 	int len = 10;
