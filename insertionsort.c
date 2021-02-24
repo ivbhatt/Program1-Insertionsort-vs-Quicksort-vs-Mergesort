@@ -4,6 +4,8 @@
 #include <math.h>
 #include <time.h>
 #include "insertion.h"
+
+//TODO: move this utility to the list class
 void printList(Node * itterator){
 	printf("Here is the list: \n");
 	while(itterator != NULL){
@@ -13,59 +15,50 @@ void printList(Node * itterator){
 	printf("\n");
 }
 
+/* uses the insertion sort algoritum to sort a linked list
+ * Node * head: the head of the list to be sorted
+ * Returns: Node * that points to the sorted list
+ */
 Node * insertionSort(Node * head){
-	Node * sorted = head;
-	Node * unsorted = head->next;
-	head->next = NULL;
+	Node * sorted = head; //The first element is already sorted
+	Node * unsorted = head->next; //The seocnd element is the head of the unsorted list
+	Node * nextIndex; //Teporary pointer used to increment the unsorted list
+	sorted ->next = NULL; //sets the tail of the sorted list to null
+
+	//Loop through all elements in the unsorted list inseting them into the sorted list
 	while (unsorted != NULL){
-		sorted = insert(unsorted, sorted);
-		unsorted =  unsorted->next;
+		nextIndex = unsorted -> next; //save off next index to incrment the list since unsorted 
+		 							  //element pointer will be modified in the insert method
+		sorted = insert(unsorted, sorted); //sort head of the unsorted list into the sorted list
+		//printf("%d\n", unsorted -> value);
+		unsorted =  nextIndex; //incremnt the list
 	}
 	return sorted;
 }
-
+/* inserts an element into a sorted list
+ * Node * element: the element to be inserted
+ * Node * list: the list to which the element is to be inserted
+ */
 Node * insert(Node * element, Node * list){
-	Node * previous = NULL;
-	Node * current = list;
+	Node * previous = NULL; //keep track of previous node
+	Node * current = list; //current element is the start of the list
+	//loop over list finding the spot where the element should be inserted
 	while (current != NULL && element->value > current->value){
-		previous = current;
+		previous = current; 
 		current = current->next;
 	}
-	element->next = current;
-	if(previous == NULL){
+
+	element -> next = current; //have the element point to its next value
+	if(previous == NULL){ //case for the where the element needs to be inserted before the head
 		list = element;
 	} else {
-		previous->next = element;
+		previous->next = element; //have the previous point to the element
 	}
 	return list;
 }
 
-
-
-
-/** old insertion sort list
-	int key;
-	Node * itterator;
-	Node * index = head;
-	 //start on the second element because the first is sorted
-	//loop through entire list
-	while(index != NULL){
-		//printList(head);
-		itterator = index;
-		index = head -> next;//advance the list
-		//key = index -> value;//get the key of the element to insert
-		while((itterator != NULL) && ((itterator -> value) > (itterator -> next -> value))){
-			printf("I got here\n");
-			swap(itterator, itterator -> next);
-			itterator = itterator -> prev;
-		}
-	}
-
-}
-
-*/
 int main(int argc, char const *argv[]){
-	int len = 10;
+	int len = 5;
 	Node * list = makeNewRandomList(len);
 	printList(list);
 	list = insertionSort(list);
