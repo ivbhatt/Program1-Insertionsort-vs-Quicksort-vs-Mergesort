@@ -1,8 +1,5 @@
 #include "sorting_algos.h"
 
-
-
-
 int main(int argc, char const *argv[]){
     // variables to measure time
     clock_t start, end;
@@ -10,7 +7,6 @@ int main(int argc, char const *argv[]){
 
     // utility that takes numbers from stdin and build a LinkedList
     Node * list = makeList();
-
 
     // sorting
     start = clock();

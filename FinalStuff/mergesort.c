@@ -8,7 +8,6 @@ int main(int argc, char const *argv[]){
     // utility that takes numbers from stdin and build a LinkedList
     Node * list = makeList();
 
-
     // sorting
     start = clock();
     Node* answer = mergeSort(list);

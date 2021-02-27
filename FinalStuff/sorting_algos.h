@@ -9,6 +9,7 @@ Node* mergeSort(Node * head){
     // find middle of the linkedlist
 
     if(head != NULL && head -> next != NULL){
+        // Using fast pointer and slow pointer to find a midpoint of the linked list
         Node* fast_pointer = head;
         Node* slow_pointer = head;
         Node* prev_slow = head;
@@ -20,21 +21,23 @@ Node* mergeSort(Node * head){
             slow_pointer = slow_pointer -> next;
         }
 
+        // Splitting the linked list into a right and left from the midpoint found earlier
         Node* right = slow_pointer;
         Node* left = head;
 
         prev_slow -> next = NULL;
 
+        // Calling mergesort on both right and left
         right = mergeSort(right);
         left = mergeSort(left);
     
-        
-    
+        // At this point, we have two sorted lists. 
+        // We need to merge them together and return the output.
+
+        // Counters to merge each respective side together
         Node* left_counter = left;
         Node* right_counter = right;
-        
         Node* sorted_counter = NULL;
-
 
        	comparisions++;
     	// printf("comparing: %d and %d \n", left_counter->value, right_counter->value);
@@ -62,6 +65,7 @@ Node* mergeSort(Node * head){
             }
         }
 
+        // After one of the list is exhausted, we append the rest of the other list to the answer
         if (left_counter != NULL)
             sorted_counter->next = left_counter;
 
@@ -73,6 +77,8 @@ Node* mergeSort(Node * head){
 
     }
 
+    // If head or head->next is null, return head
+    // Otherwise, we would return the appened linked list "answer" above
     return head;
 }
 
