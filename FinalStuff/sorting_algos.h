@@ -2,7 +2,7 @@
 
 
 // Global Variables
-int comparisions = 0;
+long long comparisions = 0;
 
 Node* mergeSort(Node * head){
 
@@ -213,7 +213,7 @@ Node * insert(Node * element, Node * list){
 	//loop over list finding the spot where the element should be inserted
 	while (current != NULL){
 		comparisions ++;
-		if(element->value < current->value){
+		if(element->value > current->value){
 			previous = current; 
 			current = current->next;
 		}else

@@ -17,7 +17,7 @@ int main(int argc, char const *argv[]){
     time_taken = (end - start)/(float)CLOCKS_PER_SEC;
 
     // report statistics on std err
-    fprintf(stderr, "comparisions: %d\n", comparisions);
+    fprintf(stderr, "comparisions: %lld\n", comparisions);
     fprintf(stderr, "time_taken: %.1f\n", time_taken);
 
     // print answer on stdout
