@@ -11,10 +11,13 @@ Node * insert(Node * element, Node * list){
 	Node * previous = NULL; //keep track of previous node
 	Node * current = list; //current element is the start of the list
 	//loop over list finding the spot where the element should be inserted
-	while (current != NULL && element->value < current->value){
-		previous = current; 
-		current = current->next;
+	while (current != NULL){
 		comparisions ++;
+		if(element->value < current->value){
+			previous = current; 
+			current = current->next;
+		}else
+			break;
 	}
 
 	element -> next = current; //have the element point to its next value
