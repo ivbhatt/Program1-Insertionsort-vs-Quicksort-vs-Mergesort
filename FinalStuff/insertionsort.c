@@ -11,7 +11,7 @@ Node * insert(Node * element, Node * list){
 	Node * previous = NULL; //keep track of previous node
 	Node * current = list; //current element is the start of the list
 	//loop over list finding the spot where the element should be inserted
-	while (current != NULL && element->value > current->value){
+	while (current != NULL && element->value < current->value){
 		previous = current; 
 		current = current->next;
 		comparisions ++;
