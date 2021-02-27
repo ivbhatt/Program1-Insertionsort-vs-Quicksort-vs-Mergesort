@@ -1,19 +1,8 @@
-#include "list.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <time.h>
-#include "insertion.h"
+#include "dependencies.h"
 
-//TODO: move this utility to the list class
-void printList(Node * itterator){
-	printf("Here is the list: \n");
-	while(itterator != NULL){
-		printf("%d\n", itterator->value);
-		itterator = itterator->next;
-	}
-	printf("\n");
-}
+// Global Variables
+int comparisions = 0;
+
 /* inserts an element into a sorted list
  * Node * element: the element to be inserted
  * Node * list: the list to which the element is to be inserted
@@ -25,6 +14,7 @@ Node * insert(Node * element, Node * list){
 	while (current != NULL && element->value > current->value){
 		previous = current; 
 		current = current->next;
+		comparisions ++;
 	}
 
 	element -> next = current; //have the element point to its next value
@@ -58,10 +48,20 @@ Node * insertionSort(Node * head){
 }
 
 int main(int argc, char const *argv[]){
-	int len = 5;
-	Node * list = makeNewRandomList(len);
-	printList(list);
-	list = insertionSort(list);
-	printList(list);
+	char const *path = argv[1];
+    clock_t start, end;
+    float time_taken;
+
+	Node * list = makeList(path);
+
+	start = clock();
+    Node* answer = insertionSort(list);
+    end = clock();
+
+    time_taken = (end - start)/(float)CLOCKS_PER_SEC;
+
+    printf("comparisions: %d\n", comparisions);
+    printf("time_taken: %f\n", time_taken);
+
 	return 0;
 }
