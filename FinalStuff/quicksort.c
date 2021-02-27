@@ -7,86 +7,100 @@ int comparisions = 0;
 
 Node* quickSort(Node * head){
 
-
-    // three lists
-
-    // first we find the size of the input node
+    // initializing some values 
     int length = 0;
     Node* temp = head;
-    // Node* left_head = NULL;
-    // Node* right_head = NULL;
-    // Node* pivots_head = NULL;
-
-    Node* left = NULL; 
-    Node* pivots = NULL;
-    Node* right = NULL;
-
-
     int pivot_index = 0;
     int pivot = 0;
     int i =0;
 
+    time_t t;
+
+    // Three lists
+    Node* left = NULL; 
+    Node* pivots = NULL;
+    Node* right = NULL;
+
+    // finding out the length of the supplied linked-list; cost:O(n)
     while(temp != NULL){
         temp = temp -> next;
         length++;
 
     }
-    if(length == 0)
-        return head;
-    // printf("QuickSort called\n");
-    // printList(head);    
-    // printf("Length: %d", length);
 
-    srand(time(NULL));
+    // if List contains <=1 element return the list as it is already sorted
+    if(length <= 1)
+        return head;
+
+    // we know that the number of comparisions in quick sort at a level with N elements is N 
+    comparisions += length;
+   
+    // now that we know the length, we can generate a random index for the pivot
+    srand((unsigned) time(&t));
     pivot_index = rand() % length;
 
+    // traversing the list again to get the value of the pivot; cost:O(n)
     temp = head;
     for(i=0; i < pivot_index; i++)
         temp = temp -> next;
     pivot = temp ->value;
-    if (length > 1)
-        comparisions += length;
-    // printf("Pivot: %d \n", pivot);
-    // printList(head);
 
+
+    
     temp = head;
     Node* tempNext = temp -> next;
     
+    Node* leftLast = NULL;
+    Node* pivotsLast = NULL;
+    Node* rightLast = NULL;
+
     while(temp != NULL){
 
-        // printf("Looking at value: %d \n", temp -> value);
         tempNext = temp -> next;
         temp -> next = NULL;
 
         if(temp -> value == pivot){
-            pivots = append(pivots, temp);
-            // printf("Inserted in pivot\n");
+            if(pivots == NULL){
+                pivots = temp;
+                pivotsLast = temp;
+            }else{
+                pivotsLast -> next = temp;
+                pivotsLast = temp;
+            }
+
+            // pivots = append(pivots, temp);
+
         }else if(temp -> value < pivot){
-            left = append(left, temp);
-            // printf("Inserted in left\n");
+            if(left == NULL){
+                left = temp;
+                leftLast = temp;
+            }else{
+                leftLast -> next = temp;
+                leftLast = temp;
+            }
+
+            // left = append(left, temp);
         
         }else if(temp -> value > pivot){
-            right = append(right, temp);
-            // printf("Inserted in right\n");
+            if(right == NULL){
+                right = temp;
+                rightLast = temp;
+            }else{
+                rightLast -> next = temp;
+                rightLast = temp;
+            }
+
+            //right = append(right, temp);
         }
         temp = tempNext;
     }
 
-    // printf("LEFT:\n");
-    // printList(left);
-
-    // printf("PIVOTS:\n");
-    // printList(pivots);
-
-    // printf("RIGHT:\n");
-    // printList(right);
+    
 
 
     left = quickSort(left);
     right = quickSort(right);
 
-    // printf("SortedLEFT:\n");
-    // printList(left);
     
     if(left != NULL){
         temp = left;
@@ -106,24 +120,21 @@ Node* quickSort(Node * head){
 
 
 int main(int argc, char const *argv[]){
-	int len = 10000;
-	Node * list = makeNewRandomList(len);
-
+    char const *path = argv[1];
     clock_t start, end;
     float time_taken;
 
-    printf("INPUT LIST:\n");
-    // printList(list);
+    Node * list = makeList(path);
+
 
     start = clock();
-	Node* answer = quickSort(list);
-	end = clock();
+    Node* answer = quickSort(list);
+    end = clock();
 
-    time_taken = (end - start)/CLOCKS_PER_SEC;
+    time_taken = (end - start)/(float)CLOCKS_PER_SEC;
 
-    printf("OUTPUT LIST:\n");
-    // printList(answer);
     printf("comparisions: %d\n", comparisions);
     printf("time_taken: %f\n", time_taken);
+
     return 0;
 }

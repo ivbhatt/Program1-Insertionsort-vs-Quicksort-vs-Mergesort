@@ -89,7 +89,7 @@ int main(int argc, char const *argv[]){
     Node* answer = mergeSort(list);
     end = clock();
 
-    time_taken = (end - start)/CLOCKS_PER_SEC;
+    time_taken = (end - start)/(float)CLOCKS_PER_SEC;
 
     printf("comparisions: %d\n", comparisions);
     printf("time_taken: %f\n", time_taken);
