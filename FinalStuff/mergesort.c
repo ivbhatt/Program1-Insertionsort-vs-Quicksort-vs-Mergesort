@@ -1,17 +1,8 @@
-#include "list.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <time.h>
-#include "insertion.h"
-void printList(Node * itterator){
-	printf("Here is the list: \n");
-	while(itterator != NULL){
-		printf("%d\n", itterator->value);
-		itterator = itterator->next;
-	}
-	printf("\n");
-}
+#include "dependencies.h"
+
+
+// Global Variables
+int comparisions = 0;
 
 Node* mergeSort(Node * head){
 
@@ -37,20 +28,18 @@ Node* mergeSort(Node * head){
         right = mergeSort(right);
         left = mergeSort(left);
     
-        // printf("=======\n");
-        // printf("LEFT:\n");
-        // printList(left);
-        // printf("RIGHT:\n");
-        // printList(right);
-        // printf("=======\n");
+        
     
         Node* left_counter = left;
         Node* right_counter = right;
         
         Node* sorted_counter = NULL;
 
+
+       	comparisions++;
+    	// printf("comparing: %d and %d \n", left_counter->value, right_counter->value);
         if (left_counter->value <= right_counter->value){
-            sorted_counter = left_counter;
+        	sorted_counter = left_counter;
             left_counter = left_counter -> next; 
 
         }else{
@@ -60,10 +49,8 @@ Node* mergeSort(Node * head){
         Node* answer = sorted_counter;
 
         while(left_counter != NULL && right_counter != NULL){
-        // printf("=====");
-        // printf("left: %d; right: %d", left_counter->value, right_counter->value);
-        // printf("=====\n");
-        
+        	comparisions++;
+        	// printf("comparing: %d and %d \n", left_counter->value, right_counter->value);
             if (left_counter->value <= right_counter->value){
                 sorted_counter->next = left_counter;
                 sorted_counter = sorted_counter ->next;
@@ -82,15 +69,6 @@ Node* mergeSort(Node * head){
             sorted_counter->next = right_counter;
 
 
-        // printf("==ANSWER==\n");
-        // printList(answer);
-        // printf("==========\n");
-
-
-        // printf("==HEAD==\n");
-        // printList(head);
-        // printf("==========\n");
-
         return answer;
 
     }
@@ -100,14 +78,21 @@ Node* mergeSort(Node * head){
 
 
 int main(int argc, char const *argv[]){
-	int len = 8;
-	Node * list = makeNewRandomList(len);
-    printf("INPUT LIST:\n");
-    printList(list);
+	char const *path = argv[1];
+    clock_t start, end;
+    float time_taken;
 
-	Node* answer = mergeSort(list);
-	
-    printf("OUTPUT LIST:\n");
-    printList(answer);
+	Node * list = makeList(path);
+
+
+	start = clock();
+    Node* answer = mergeSort(list);
+    end = clock();
+
+    time_taken = (end - start)/CLOCKS_PER_SEC;
+
+    printf("comparisions: %d\n", comparisions);
+    printf("time_taken: %f\n", time_taken);
+
 	return 0;
 }

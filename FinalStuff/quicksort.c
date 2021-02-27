@@ -1,17 +1,9 @@
-#include "list.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <time.h>
-#include "insertion.h"
-void printList(Node * itterator){
-	printf("Here is the list: \n");
-	while(itterator != NULL){
-		printf("%d\n", itterator->value);
-		itterator = itterator->next;
-	}
-	printf("\n");
-}
+#include "dependencies.h"
+
+// Global Variables
+int comparisions = 0;
+
+
 
 Node* quickSort(Node * head){
 
@@ -52,13 +44,16 @@ Node* quickSort(Node * head){
     for(i=0; i < pivot_index; i++)
         temp = temp -> next;
     pivot = temp ->value;
-
+    if (length > 1)
+        comparisions += length;
     // printf("Pivot: %d \n", pivot);
+    // printList(head);
 
     temp = head;
     Node* tempNext = temp -> next;
     
     while(temp != NULL){
+
         // printf("Looking at value: %d \n", temp -> value);
         tempNext = temp -> next;
         temp -> next = NULL;
@@ -111,14 +106,24 @@ Node* quickSort(Node * head){
 
 
 int main(int argc, char const *argv[]){
-	int len = 8;
+	int len = 10000;
 	Node * list = makeNewRandomList(len);
-    printf("INPUT LIST:\n");
-    printList(list);
 
+    clock_t start, end;
+    float time_taken;
+
+    printf("INPUT LIST:\n");
+    // printList(list);
+
+    start = clock();
 	Node* answer = quickSort(list);
-	
+	end = clock();
+
+    time_taken = (end - start)/CLOCKS_PER_SEC;
+
     printf("OUTPUT LIST:\n");
-    printList(answer);
-	return 0;
+    // printList(answer);
+    printf("comparisions: %d\n", comparisions);
+    printf("time_taken: %f\n", time_taken);
+    return 0;
 }
